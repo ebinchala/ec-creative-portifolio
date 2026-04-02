@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --font-headline: "Space Grotesk", sans-serif;
+  --font-body: "Manrope", sans-serif;
+
+  --color-surface: #0b0e15;
+  --color-surface-bright: #272c37;
+  --color-surface-variant: #212630;
+  --color-surface-container: #161a22;
+  --color-surface-container-low: #10131b;
+  --color-surface-container-high: #1b2029;
+  
+  --color-primary: #8ff5ff;
+  --color-primary-dim: #00deec;
+  --color-primary-container: #00eefc;
+  
+  --color-secondary: #ff59e3;
+  --color-secondary-dim: #ff59e3;
+  --color-secondary-container: #ad009b;
+  
+  --color-tertiary: #ac89ff;
+  --color-tertiary-dim: #874cff;
+  --color-tertiary-container: #7000ff;
+  
+  --color-on-surface: #e3e5f0;
+  --color-on-surface-variant: #a9abb5;
+  --color-on-primary: #005d63;
+  --color-on-secondary: #42003a;
+  
+  --color-outline: #73757e;
+  --color-outline-variant: #454850;
+}
+
+@layer base {
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap');
+
+  body {
+    @apply text-on-surface font-body selection:bg-primary/30 selection:text-primary;
+    background: linear-gradient(
+      120deg,
+      #020617 0%,
+      #050d30 40%,
+      #000616 70%,
+      #05020b 100%
+    );
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-surface-container/40 backdrop-blur-xl border border-white/10;
+  }
+  
+  .neon-glow-primary {
+    box-shadow: 0 0 20px rgba(143, 245, 255, 0.15);
+  }
+  
+  .neon-glow-secondary {
+    box-shadow: 0 0 20px rgba(255, 89, 227, 0.15);
+  }
+
+  .text-glow-primary {
+    text-shadow: 0 0 12px rgba(143, 245, 255, 0.5);
+  }
+}
