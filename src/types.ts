@@ -13,6 +13,29 @@ export interface Project {
   span?: string;
 }
 
+export interface ProjectItem {
+  name: string;
+  focus: string;
+  active?: boolean;
+}
+
+export interface ProjectService {
+  id: string;
+  index: string;
+  label: string;
+  title: string;
+  year: string;
+  role: string;
+  description: string;
+  featured: {
+    title: string;
+    image: string;
+    deliverables: string[];
+  };
+  projects: ProjectItem[];
+  tags: string[];
+}
+
 export interface ExperienceItem {
   id: string;
   period: string;

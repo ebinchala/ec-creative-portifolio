@@ -33,6 +33,7 @@ import ProjectsComponent from './components/Projects';
 import StatsComponent from './components/Stats';
 import ExperienceComponent from './components/Experience';
 import SkillsComponent from './components/Skills';
+import TestimonialsComponent from './components/Testimonials';
 import ContactComponent from './components/Contact';
 import FooterComponent from './components/Footer';
 import TickerComponent from './components/Ticker';
@@ -867,6 +868,7 @@ export default function Portfolio() {
         <StatsComponent />
         <ExperienceComponent />
         <SkillsComponent />
+        <TestimonialsComponent />
         <ContactComponent />
       </main>
 

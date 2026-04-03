@@ -5,7 +5,7 @@ import { Menu, X } from 'lucide-react';
 const navLinks = [
   { name: 'Home', href: '#home' },
   { name: 'Projects', href: '#projects' },
-  { name: 'Experience', href: '#experience' },
+  { name: 'Services', href: '#services' },
   { name: 'Contact', href: '#contact' }
 ];
 
@@ -34,7 +34,7 @@ export default function Navbar() {
           animate={{ opacity: 1, x: 0 }}
           className="text-2xl font-bold tracking-tight text-primary font-headline cursor-pointer"
         >
-          ec.creative
+          ec creative
         </motion.div>
 
         <div className="hidden md:flex items-center space-x-12 absolute left-1/2 -translate-x-1/2">

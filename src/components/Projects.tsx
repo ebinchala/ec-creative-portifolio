@@ -1,10 +1,18 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { fadeInUp, staggerContainer } from '../animations';
+import { PROJECTS } from '../data/projects';
+import type { ProjectService, ProjectItem } from '../types';
 
 export default function Projects() {
+  const [activeService, setActiveService] = useState<ProjectService>(PROJECTS[0]);
+  const [activeProject, setActiveProject] = useState<ProjectItem>(
+    PROJECTS[0].projects[0]
+  );
+
   return (
-    <section id="projects" className="py-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -14,80 +22,120 @@ export default function Projects() {
         {/* Header */}
         <motion.h2
           variants={fadeInUp}
-          className="font-headline text-5xl md:text-6xl font-bold tracking-tighter text-white mb-16"
+          className="font-headline text-3xl md:text-4xl font-bold tracking-tighter text-white mb-10"
         >
           RECENT SELECTED WORKS
         </motion.h2>
 
-        {/* Main Split Layout */}
+        {/* Service Tabs (01–04) */}
         <motion.div
           variants={fadeInUp}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-0 rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative"
-          style={{ minHeight: '700px' }}
+          className="flex gap-3 mb-6 flex-wrap"
         >
-          {/* LEFT PANEL - Glassmorphism */}
-          <div className="lg:col-span-5 bg-white/5 backdrop-blur-md p-10 lg:p-12 flex flex-col border-r border-white/10 relative z-10">
-            {/* Core Services */}
-            <div className="text-[11px] font-headline tracking-[3px] text-white/50 mb-3">
-              01 — CORE SERVICES
+          {PROJECTS.map((service) => (
+            <button
+              key={service.id}
+              onClick={() => {
+                setActiveService(service);
+                setActiveProject(service.projects[0]);
+              }}
+              className={`px-4 py-2 text-xs font-headline tracking-[2px] rounded-full border transition-all
+                ${
+                  activeService.id === service.id
+                    ? 'bg-white text-black border-white'
+                    : 'text-white/60 border-white/20 hover:border-white/40 hover:text-white'
+                }`}
+            >
+              {service.index}
+            </button>
+          ))}
+        </motion.div>
+
+        {/* Main Layout */}
+        <motion.div
+          variants={fadeInUp}
+          className="grid grid-cols-1 lg:grid-cols-12 rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
+          style={{ minHeight: '420px' }}
+        >
+          {/* LEFT PANEL */}
+          <div className="lg:col-span-5 bg-white/5 backdrop-blur-md p-6 lg:p-8 flex flex-col border-r border-white/10">
+            {/* Index */}
+            <div className="text-[10px] tracking-[3px] text-white/50 mb-2">
+              {activeService.index} — {activeService.label}
             </div>
 
-            {/* Brand Identity Title */}
-            <div className="font-headline text-[44px] leading-[1.02] font-bold tracking-[-2px] text-white mb-6">
-              BRAND<br />IDENTITY
+            {/* Title */}
+            <div className="font-headline text-2xl md:text-3xl font-bold text-white mb-3 leading-[1.1]">
+              {activeService.title}
             </div>
 
             {/* Date + Role */}
-            <div className="mb-10">
-              <div className="text-sm text-white/50 tracking-wide">JAN 2024 — OCT 2025</div>
-              <div className="text-sm uppercase tracking-[2px] text-primary font-medium mt-1">IDENTITY LEAD</div>
+            <div className="mb-4">
+              <div className="text-xs text-white/50">
+                {activeService.year}
+              </div>
+              <div className="text-[10px] uppercase tracking-[2px] text-primary mt-1">
+                {activeService.role}
+              </div>
             </div>
 
             {/* Description */}
-            <p className="text-white/50 text-[15.2px] leading-relaxed mb-12 max-w-md">
-              Developing cohesive visual systems and strategic foundations that empower brands to communicate their unique value through impactful design and storytelling.
+            <p className="text-white/50 text-xs mb-6 leading-relaxed">
+              {activeService.description}
             </p>
 
-            {/* Project List */}
-            <div className="space-y-4 mb-12 flex-1">
-              {/* Snapwre - Active */}
-              <div className="group flex items-center justify-between bg-white/10 hover:bg-white/15 border border-white/15 hover:border-primary/40 transition-all duration-300 rounded-2xl px-6 py-5">
-                <div className="flex items-center gap-4">
-                  <div className="w-2.5 h-2.5 bg-primary rounded-full ring-1 ring-primary/30"></div>
-                  <div>
-                    <div className="font-medium text-white text-[15px]">SNAPWRE DESIGN</div>
-                    <div className="text-xs text-white/40 tracking-wide">LOGO DESIGN, STRATEGY</div>
+            {/* Projects */}
+            <div className="space-y-2 mb-6 flex-1">
+              {activeService.projects.map((project, i) => {
+                const isActive = project.name === activeProject.name;
+
+                return (
+                  <div
+                    key={i}
+                    onClick={() => setActiveProject(project)}
+                    className={`group flex items-center justify-between rounded-xl px-4 py-3 transition-all duration-300 cursor-pointer
+                      ${
+                        isActive
+                          ? 'bg-white/10 border border-white/20'
+                          : 'hover:bg-white/10 border border-transparent hover:border-white/15'
+                      }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      {isActive && (
+                        <div className="w-2 h-2 bg-primary rounded-full"></div>
+                      )}
+                      <div>
+                        <div
+                          className={`text-xs font-medium ${
+                            isActive ? 'text-white' : 'text-white/70'
+                          }`}
+                        >
+                          {project.name}
+                        </div>
+                        <div className="text-[9px] text-white/40">
+                          {project.focus}
+                        </div>
+                      </div>
+                    </div>
+
+                    {isActive ? (
+                      <div className="w-6 h-6 flex items-center justify-center text-[9px] border border-white/30 rounded-full">
+                        ✕
+                      </div>
+                    ) : (
+                      <ArrowUpRight className="w-4 h-4 text-white/40 group-hover:text-primary" />
+                    )}
                   </div>
-                </div>
-                <div className="w-7 h-7 rounded-full border border-white/30 flex items-center justify-center text-xs group-hover:bg-primary group-hover:text-black group-hover:border-primary transition-all">
-                  ✕
-                </div>
-              </div>
-
-              {/* Other Projects */}
-              <div className="group flex items-center justify-between hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-300 rounded-2xl px-6 py-5 cursor-pointer">
-                <div>
-                  <div className="font-medium text-white/80 text-[15px] group-hover:text-white">ILILI RIBBONS</div>
-                  <div className="text-xs text-white/40 tracking-wide">IDENTITY SYSTEMS, ART DIRECTION</div>
-                </div>
-                <ArrowUpRight className="w-5 h-5 text-white/40 group-hover:text-primary transition-colors" />
-              </div>
-
-              <div className="group flex items-center justify-between hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-300 rounded-2xl px-6 py-5 cursor-pointer">
-                <div>
-                  <div className="font-medium text-white/80 text-[15px] group-hover:text-white">SUNRISE COFFEE SHOP</div>
-                  <div className="text-xs text-white/40 tracking-wide">MINIMALIST, CORPORATE, TECH</div>
-                </div>
-                <ArrowUpRight className="w-5 h-5 text-white/40 group-hover:text-primary transition-colors" />
-              </div>
+                );
+              })}
             </div>
 
             {/* Tags */}
-            <div className="flex flex-wrap gap-2">
-              {['BRAND STRATEGY', 'LOGO DESIGN', 'VISUAL LANGUAGE', 'IDENTITY SYSTEMS'].map((tag) => (
+            <div className="flex flex-wrap gap-1.5">
+              {activeService.tags.map((tag) => (
                 <div
                   key={tag}
-                  className="px-5 py-2 text-[10px] font-headline tracking-[1.5px] border border-white/15 hover:border-white/30 bg-white/5 hover:bg-white/15 rounded-full text-white/60 hover:text-white transition-all cursor-pointer"
+                  className="px-3 py-1 text-[9px] border border-white/15 rounded-full text-white/60 hover:text-white hover:border-white/30 transition"
                 >
                   {tag}
                 </div>
@@ -96,53 +144,49 @@ export default function Projects() {
           </div>
 
           {/* RIGHT PANEL */}
-          <div className="lg:col-span-7 relative bg-black/30 backdrop-blur-sm overflow-hidden flex items-center justify-center min-h-[700px] group">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 bg-[radial-gradient(#ffffff0f_1px,transparent_1px)] bg-[length:5px_5px]"></div>
+          <div className="lg:col-span-7 relative overflow-hidden flex items-end min-h-[400px] group">
+            {/* Background */}
+            <div className="absolute inset-0 bg-[radial-gradient(#ffffff0f_1px,transparent_1px)] bg-[length:5px_5px]" />
 
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80 z-10"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/80 z-10" />
 
             {/* Image */}
-            <img
-              src="/snapwre.jpg"
-              alt="Snapwre Logo Design Visual"
-              className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
+            <motion.img
+              key={activeProject.name}
+              src={activeService.featured.image}
+              alt={activeProject.name}
+              initial={{ scale: 1.05, opacity: 0.8 }}
+              animate={{ scale: 1.1, opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              className="absolute inset-0 w-full h-full object-cover"
             />
 
-            {/* Content Overlay */}
-            <div className="relative z-20 w-full h-full flex flex-col justify-end p-8 lg:p-10 text-left">
-              <div className="uppercase tracking-[4px] text-[10px] text-white/60 mb-3 font-medium">
+            {/* Content */}
+            <div className="relative z-20 p-6 lg:p-8">
+              <div className="text-[9px] tracking-[3px] text-white/60 mb-2">
                 FEATURED PROJECT
               </div>
 
-              <h3 className="font-headline text-4xl md:text-5xl leading-[1.1] font-bold tracking-[-2px] text-white mb-2">
-                SNAPWRE LOGO DESIGN
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                {activeService.featured.title}
               </h3>
 
-              <div className="mb-6">
-                <div className="text-[48px] md:text-[56px] font-light tracking-[-3px] text-white/20 leading-none">
-                  AETHER OS
-                </div>
-              </div>
-
-              <div className="border-t border-white/15 pt-4 text-left">
-                <div className="text-[9px] tracking-[2px] text-white/50 mb-1 font-mono">
+              <div className="border-t border-white/20 pt-3">
+                <div className="text-[8px] text-white/50 mb-1">
                   DELIVERABLES
                 </div>
-                <div className="text-white/80 text-xs leading-relaxed font-medium">
-                  BRAND ARCHITECTURE, VISUAL IDENTITY
+                <div className="text-white/70 text-[10px]">
+                  {activeService.featured.deliverables.join(', ')}
                 </div>
               </div>
             </div>
 
-            {/* Arrow Button */}
+            {/* Arrow */}
             <motion.div
               whileHover={{ scale: 1.1, rotate: 45 }}
-              transition={{ type: "spring", stiffness: 400 }}
-              className="absolute bottom-8 right-8 w-12 h-12 rounded-xl border border-white/20 bg-black/60 backdrop-blur-md flex items-center justify-center cursor-pointer hover:border-primary hover:bg-primary/10 z-30 transition-all"
+              className="absolute bottom-6 right-6 w-10 h-10 border border-white/20 rounded-xl flex items-center justify-center bg-black/60 backdrop-blur-md cursor-pointer"
             >
-              <ArrowUpRight className="w-5 h-5 text-white" />
+              <ArrowUpRight className="w-4 h-4 text-white" />
             </motion.div>
           </div>
         </motion.div>
