@@ -15,14 +15,14 @@ const testimonials: Testimonial[] = [
   {
     id: '1',
     quote: "Working with this designer was an absolute pleasure. Their attention to detail and creative vision brought our brand to life in ways we never imagined.",
-    name: "Sarah Johnson",
+    name: "Abel Mengistu",
     role: "Marketing Director",
     company: "TechCorp"
   },
   {
     id: '2',
     quote: "The web application they built exceeded our expectations. It's not just functional, it's beautiful and user-friendly.",
-    name: "Michael Chen",
+    name: "Exodus Tola",
     role: "Product Manager",
     company: "StartupXYZ"
   },
